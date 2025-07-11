@@ -36,16 +36,14 @@ function payment_methods_cnt(\PDO $db_connection, int $patient_id, ?bool $status
     ':patient_id' => $patient_id,
   ];
 
-  if (!is_null($status)) {
+  if ($status === true) {
     $query .= ' AND payment_data->"$.status" = true ';
+  } else if ($status === false) {
+    $query .= ' AND payment_data->"$.status" = false ';
   }
 
   $stmt = $db_connection->prepare($query);
   $stmt->bindValue(':patient_id', $patient_id, \PDO::PARAM_INT);
-  if (!is_null($status)) {
-    //$stmt->bindValue(':status', (bool)$status, \PDO::PARAM_BOOL);
-  }
-
   $stmt->execute();
   $res = $stmt->fetch();
 
