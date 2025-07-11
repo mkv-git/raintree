@@ -32,10 +32,6 @@ function payment_methods_cnt(\PDO $db_connection, int $patient_id, ?bool $status
     WHERE patient_id = :patient_id
   ';
 
-  $payload = [
-    ':patient_id' => $patient_id,
-  ];
-
   if ($status === true) {
     $query .= ' AND payment_data->"$.status" = true ';
   } else if ($status === false) {
